@@ -22,9 +22,9 @@ export class Scrptly implements INodeType {
 		displayName: 'Scrptly',
 		name: 'scrptly',
 		icon: 'file:../../icons/scrptly.svg',
-		group: ['transform'],
+		group: ['output', 'transform'],
 		version: 1,
-		subtitle: 'Generate video via Scrptly',
+		subtitle: 'Generate a video via Scrptly',
 		description: 'Generates an AI video based on a text prompt and optional context images. Returns the video URL when done.',
 		defaults: { name: 'Scrptly' },
 		inputs: ['main'],
@@ -41,9 +41,9 @@ export class Scrptly implements INodeType {
 			},
 			{
 				displayName: 'Context Images',
-				name: 'contextImages',
+				name: 'context',
 				type: 'fixedCollection',
-				typeOptions: { multipleValues: true },
+				typeOptions: { multipleValues: true, maxAllowedFields: 5 },
 				default: [],
 				description: 'Array of images with URL and description',
 				options: [
@@ -92,7 +92,7 @@ export class Scrptly implements INodeType {
 
 		for (let i = 0; i < items.length; i++) {
 			const prompt = this.getNodeParameter('prompt', i) as string;
-			const contextImages = this.getNodeParameter('contextImages', i, {}) as { images?: Array<{ url: string; description?: string }> }  ?? [];
+			const contextImages = (this.getNodeParameter('contextImages', i, {}) as { images?: Array<{ url: string; description?: string }> })?.images ?? [];
 			const approveUpTo = this.getNodeParameter('approveUpTo', i, 10000) as number;
 			const waitForComplete = this.getNodeParameter('waitForComplete', i, true) as boolean;
 
@@ -110,13 +110,13 @@ export class Scrptly implements INodeType {
 				'scrptlyApi',
 				startReq
 			));
-
-			if (!startRes?.taskId) {
-				throw new NodeOperationError(this.getNode(), 'Scrptly: missing taskId in start response.');
+			
+			if(startRes.success!==true) {
+				throw new NodeOperationError(this.getNode(), `Scrptly: failed to start video generation. ${startRes.error || ''}`);
 			}
 
 			const taskId = startRes.taskId;
-			const statusUrl = `https://scrptly.com/task-status/${encodeURIComponent(taskId)}`;
+			const statusUrl = startRes.eventsUrl;
 
 			// 2) If not waiting, return early
 			if (!waitForComplete) {
