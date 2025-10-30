@@ -1,17 +1,17 @@
 {
     "name": "n8n-nodes-scrptly",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Generates an AI video based on a text prompt and optional context images. Returns the video URL when done.",
     "license": "MIT",
     "homepage": "https://scrptly.com",
     "keywords": [
         "n8n-community-node-package",
-		"n8n-node",
-		"n8n",
-		"scrptly",
-		"ai",
-		"video",
-		"generation"
+        "n8n-node",
+        "n8n",
+        "scrptly",
+        "ai",
+        "video",
+        "generation"
     ],
     "author": {
         "name": "scrptly",
@@ -21,15 +21,15 @@
         "type": "git",
         "url": "https://github.com/ybouane/n8n-nodes-scrptly.git"
     },
-   "scripts": {
-		"build": "n8n-node build",
-		"build:watch": "tsc --watch",
-		"dev": "n8n-node dev",
-		"lint": "n8n-node lint",
+    "scripts": {
+        "build": "n8n-node build",
+        "build:watch": "tsc --watch",
+        "dev": "n8n-node dev",
+        "lint": "n8n-node lint",
         "lint:fix": "n8n-node lint --fix",
-		"release": "n8n-node release",
-		"prepublishOnly": "n8n-node prerelease"
-	},
+        "release": "n8n-node release",
+        "prepublishOnly": "n8n-node prerelease"
+    },
     "files": [
         "dist"
     ],
