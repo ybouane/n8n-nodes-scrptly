@@ -69,12 +69,12 @@ export class Scrptly implements INodeType {
 				]
 			},
 			{
-				displayName: 'Approve Up To',
+				displayName: 'Max Tokens to Approve',
 				name: 'approveUpTo',
 				type: 'number',
 				typeOptions: { minValue: 0 },
 				default: 10000,
-				description: 'Maximum amount to approve'
+				description: 'The maximum budget in tokens you are willing to approve for this video. Default is 10,000 tokens. Ensure your account has sufficient funds to cover this amount.'
 			},
 			{
 				displayName: 'Wait For Completion',
