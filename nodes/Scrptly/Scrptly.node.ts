@@ -92,7 +92,7 @@ export class Scrptly implements INodeType {
 
 		for (let i = 0; i < items.length; i++) {
 			const prompt = this.getNodeParameter('prompt', i) as string;
-			const contextImages = (this.getNodeParameter('contextImages', i, {}) as { images?: Array<{ url: string; description?: string }> })?.images ?? [];
+			const context = (this.getNodeParameter('context', i, {}) as { images?: Array<{ url: string; description?: string }> })?.images ?? [];
 			const approveUpTo = this.getNodeParameter('approveUpTo', i, 10000) as number;
 			const waitForComplete = this.getNodeParameter('waitForComplete', i, true) as boolean;
 
@@ -102,7 +102,7 @@ export class Scrptly implements INodeType {
 				method: 'POST',
 				url: 'https://api.scrptly.com/generateAiVideo',
 				json: true,
-				body: { prompt, contextImages, approveUpTo }
+				body: { prompt, context, approveUpTo }
 			};
 
 			const startRes = (await this.helpers.httpRequestWithAuthentication.call(
