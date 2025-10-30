@@ -3,15 +3,25 @@ import type {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
+	IHttpRequestOptions,
 } from 'n8n-workflow';
+import { NodeOperationError, sleep } from 'n8n-workflow';
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+type OutputResponse = {
+	status: string;
+	statusMessage?: string;
+	projectUrl?: string;
+	projectId?: string;
+	resultVideoUrl?: string;
+	resultVideoThumbnail?: string;
+};
 
 export class Scrptly implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Scrptly',
 		name: 'scrptly',
-		icon: 'file:../icons/scrptly.png',
+		icon: 'file:../../icons/scrptly.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: 'Generate video via Scrptly',
@@ -20,6 +30,7 @@ export class Scrptly implements INodeType {
 		inputs: ['main'],
 		outputs: ['main'],
 		credentials: [{ name: 'scrptlyApi', required: true }],
+		usableAsTool: true,
 		properties: [
 			{
 				displayName: 'Prompt',
@@ -70,7 +81,7 @@ export class Scrptly implements INodeType {
 				name: 'waitForComplete',
 				type: 'boolean',
 				default: true,
-				description: 'If disabled, node returns only taskId and statusUrl'
+				description: 'Whether to wait for the video generation to complete before returning or just return the task ID'
 			}
 		]
 	};
@@ -87,7 +98,7 @@ export class Scrptly implements INodeType {
 
 			
 			// 1) Kick off generation
-			const startReq = {
+			const startReq: IHttpRequestOptions = {
 				method: 'POST',
 				url: 'https://api.scrptly.com/generateAiVideo',
 				json: true,
@@ -97,11 +108,11 @@ export class Scrptly implements INodeType {
 			const startRes = (await this.helpers.httpRequestWithAuthentication.call(
 				this,
 				'scrptlyApi',
-				startReq as any
+				startReq
 			));
 
 			if (!startRes?.taskId) {
-				throw new Error('Scrptly: missing taskId in start response.');
+				throw new NodeOperationError(this.getNode(), 'Scrptly: missing taskId in start response.');
 			}
 
 			const taskId = startRes.taskId;
@@ -113,8 +124,8 @@ export class Scrptly implements INodeType {
 				continue;
 			}
 			while (true) {
-				delay(15_000); // poll every 15s
-				const statusReq = {
+				await sleep(15_000); // poll every 15s
+				const statusReq: IHttpRequestOptions = {
 					method: 'GET',
 					url: statusUrl,
 					json: true
@@ -123,20 +134,20 @@ export class Scrptly implements INodeType {
 				const task = (await this.helpers.httpRequestWithAuthentication.call(
 					this,
 					'scrptlyApi',
-					statusReq as any
+					statusReq
 				));
 
 				if (task?.status === 'failed') {
-					throw new Error(`Scrptly task failed: ${task.message || 'Unknown error'}`);
+					throw new NodeOperationError(this.getNode(), `Scrptly task failed: ${task.message || 'Unknown error'}`);
 				}
 
 				if(task.status==='success') {
-					const out = {
+					const out: OutputResponse = {
 						status: task.status,
 						statusMessage: task.message,
 						projectUrl: task.projectUrl,
 						projectId: task.projectId,
-					} as any;
+					};
 					out.resultVideoUrl = task.renderInfo.output.video;
 					out.resultVideoThumbnail = task.renderInfo.output.thumbnail;
 					returnItems.push({

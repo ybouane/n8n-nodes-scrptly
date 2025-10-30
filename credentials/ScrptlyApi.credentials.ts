@@ -8,7 +8,7 @@ import type {
 export class ScrptlyApi implements ICredentialType {
 	name = 'scrptlyApi';
 	displayName = 'Scrptly API';
-	icon: Icon = 'file:../icons/scrptly.png';
+	icon: Icon = 'file:../icons/scrptly.svg';
 	documentationUrl = 'https://scrptly.com/api';
 
 	properties: INodeProperties[] = [
