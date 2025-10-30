@@ -3,17 +3,17 @@
     "version": "0.1.0",
     "description": "",
     "license": "MIT",
-    "homepage": "",
+    "homepage": "https://scrptly.com",
     "keywords": [
         "n8n-community-node-package"
     ],
     "author": {
-        "name": "ybouane",
-        "email": "yassine@bouanane.com"
+        "name": "scrptly",
+        "email": "hello@scrptly.com"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+        "url": "https://github.com/ybouane/n8n-nodes-scrptly.git"
     },
    "scripts": {
 		"build": "n8n-node build",
@@ -31,11 +31,10 @@
         "n8nNodesApiVersion": 1,
         "strict": true,
         "credentials": [
-            "dist/credentials/GithubIssuesApi.credentials.js",
-            "dist/credentials/GithubIssuesOAuth2Api.credentials.js"
+            "dist/credentials/Scrptly.credentials.js"
         ],
         "nodes": [
-            "dist/nodes/GithubIssues/GithubIssues.node.js"
+            "dist/nodes/Scrptly.node.js"
         ]
     },
     "devDependencies": {
