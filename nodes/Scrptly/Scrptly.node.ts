@@ -153,6 +153,7 @@ export class Scrptly implements INodeType {
 					returnItems.push({
 						json: out
 					});
+					break;
 				} else {
 					// still processing show progress
 					console.log(`Scrptly task ${taskId} status: ${task.message}`);
