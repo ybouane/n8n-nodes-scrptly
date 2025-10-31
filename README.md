@@ -1,73 +1,31 @@
 # n8n-nodes-scrptly
+Scrptly's N8N Integration allows you to create long-form AI videos within your N8N workflows using Scrptly's powerful AI Video-Agent. By leveraging this integration, you can automate video creation processes and seamlessly incorporate AI-generated videos into your applications.
 
-This is an n8n community node. It lets you use GitHub Issues in your n8n workflows.
+## Setting Up the N8N Integration
+To set up the N8N Integration with Scrptly, follow these steps:
+1. **Install the Scrptly N8N Node**: In your N8N instance, install the Scrptly node from the N8N community nodes.
+	- Go to Settings > Community Nodes > Install New and type `n8n-nodes-scrptly`.
+	- Click on the **Install** button to add the Scrptly node to your N8N instance.
+2. **Configure the Node**: Add the Scrptly node to your workflow and configure it with your Scrptly API key. This key is required for authentication and can be obtained from your [Scrptly account page](https://scrptly.com/account).
+3. **Define Video Parameters**: In the Scrptly node, specify the parameters for your AI video, including the prompt, context images, and budget.
 
-[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/sustainable-use-license/) workflow automation platform.
-
-[Installation](#installation)
-[Operations](#operations)
-[Credentials](#credentials)
-[Compatibility](#compatibility)
-[Usage](#usage)
-[Resources](#resources)
-
-## Installation
-
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
-
-## Operations
-
-- Issues
-    - Get an issue
-    - Get many issues in a repository
-    - Create a new issue
-- Issue Comments
-    - Get many issue comments
+Generating the AI Video can take some time depending on the complexity of the request. By default the node will wait for the video generation to complete before proceeding to the next step in the workflow. You can adjust this behavior in the node settings by turning off the "Wait For Completion" option, in which case the node will return immediately with the task ID.
 
 ## Credentials
+When configuring the Scrptly node, you will need to set up credentials to authenticate with the Scrptly API. Follow these steps:
+1. In the N8N editor, click on the **Credentials** tab.
+2. Click on **New Credential** and select **Scrptly API** from the list
+3. Enter your Scrptly API key in the provided field.
+4. Save the credentials and select them in the Scrptly node configuration.
 
-You can use either access token or OAuth2 to use this node.
+## Using the N8N Integration
+Once the Scrptly node is configured, you can use it to generate AI videos as part of your N8N workflows. Here’s an example of how to set up a workflow that creates an AI video:
+1. **Trigger Node**: Start with a trigger node (e.g., Webhook, Schedule) to initiate the workflow.
+2. **Scrptly Node**: Add the Scrptly node and configure it with the desired video parameters:
+	- **Prompt**: A detailed description of the video you want to create.
+	- **Context Images**: Optional images to guide the video generation.
+	- **Approve Up To**: The maximum budget in tokens for the video generation. (default is 10,000 tokens)
+3. **Subsequent Nodes**: Add additional nodes to process the generated video, such as sending it via email, uploading it to cloud storage, or posting it on social media.
 
-### Access token
-
-1. Open your GitHub profile [Settings](https://github.com/settings/profile).
-2. In the left navigation, select [Developer settings](https://github.com/settings/apps).
-3. In the left navigation, under Personal access tokens, select Tokens (classic).
-4. Select Generate new token > Generate new token (classic).
-5. Enter a descriptive name for your token in the Note field, like n8n integration.
-6. Select the Expiration you'd like for the token, or select No expiration.
-7. Select Scopes for your token. For most of the n8n GitHub nodes, add the `repo` scope.
-    - A token without assigned scopes can only access public information.
-8. Select Generate token.
-9. Copy the token.
-
-Refer to [Creating a personal access token (classic)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) for more information. Refer to Scopes for OAuth apps for more information on GitHub scopes.
-
-![Generated Access token in GitHub](https://docs.github.com/assets/cb-17251/mw-1440/images/help/settings/personal-access-tokens.webp)
-
-### OAuth2
-
-If you're self-hosting n8n, create a new GitHub [OAuth app](https://docs.github.com/en/apps/oauth-apps):
-
-1. Open your GitHub profile [Settings](https://github.com/settings/profile).
-2. In the left navigation, select [Developer settings](https://github.com/settings/apps).
-3. In the left navigation, select OAuth apps.
-4. Select New OAuth App.
-    - If you haven't created an app before, you may see Register a new application instead. Select it.
-5. Enter an Application name, like n8n integration.
-6. Enter the Homepage URL for your app's website.
-7. If you'd like, add the optional Application description, which GitHub displays to end-users.
-8. From n8n, copy the OAuth Redirect URL and paste it into the GitHub Authorization callback URL.
-9. Select Register application.
-10. Copy the Client ID and Client Secret this generates and add them to your n8n credential.
-
-Refer to the [GitHub Authorizing OAuth apps documentation](https://docs.github.com/en/apps/oauth-apps/using-oauth-apps/authorizing-oauth-apps) for more information on the authorization process.
-
-## Compatibility
-
-Compatible with n8n@1.60.0 or later
-
-## Resources
-
-* [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
-* [GitHub API docs](https://docs.github.com/en/rest/issues)
+## More Information
+The N8N node is a freely available and open-source community node. You can find more information about the node, including its source code and documentation, on its [GitHub repository](https://github.com/ybouane/n8n-nodes-scrptly).
