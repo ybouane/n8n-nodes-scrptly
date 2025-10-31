@@ -1,6 +1,6 @@
 {
     "name": "n8n-nodes-scrptly",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Generates an AI video based on a text prompt and optional context images. Returns the video URL when done.",
     "license": "MIT",
     "homepage": "https://scrptly.com",
