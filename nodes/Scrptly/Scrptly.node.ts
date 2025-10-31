@@ -13,8 +13,8 @@ type OutputResponse = {
 	statusMessage?: string;
 	projectUrl?: string;
 	projectId?: string;
-	resultVideoUrl?: string;
-	resultVideoThumbnail?: string;
+	videoUrl?: string;
+	thumbnailUrl?: string;
 };
 
 export class Scrptly implements INodeType {
@@ -148,8 +148,8 @@ export class Scrptly implements INodeType {
 						projectUrl: task.projectUrl,
 						projectId: task.projectId,
 					};
-					out.resultVideoUrl = task.renderInfo.output.video;
-					out.resultVideoThumbnail = task.renderInfo.output.thumbnail;
+					out.videoUrl = task.renderInfo.output.video;
+					out.thumbnailUrl = task.renderInfo.output.thumbnail;
 					returnItems.push({
 						json: out
 					});
